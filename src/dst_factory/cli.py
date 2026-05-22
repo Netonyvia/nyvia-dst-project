@@ -2,6 +2,7 @@ import typer
 from rich.console import Console
 
 from dst_factory.drive.client import GoogleDriveClient
+from dst_factory.sources.extractor import DriveSourceExtractor
 
 app = typer.Typer(no_args_is_help=True)
 console = Console()
@@ -28,6 +29,17 @@ def drive_auth() -> None:
     client.authenticate()
 
     console.print("[green]Google Drive authenticated[/green]")
+
+
+@drive_app.command("extract")
+def drive_extract(folder_id: str) -> None:
+    """Extract text from supported files in a Drive folder."""
+    extractor = DriveSourceExtractor()
+    documents = extractor.extract_folder_document(folder_id)
+
+    for document in documents:
+        console.print(f"\n[bold cyan]{document.source_file.name}[/bold cyan]")
+        console.print(document.text[:1000])
 
 
 if __name__ == "__main__":
