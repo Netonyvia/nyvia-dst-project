@@ -59,6 +59,7 @@ htmlcov/
 # =========================
 token.json
 credentials.json
+.env.example
 
 # =========================
 # Project Outputs
